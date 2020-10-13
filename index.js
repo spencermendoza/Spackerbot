@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
+require('dotenv').config();
 const client = new Discord.Client();
-const token = require('./token.js');
+const firebase = require('./Firebase/firebase');
+// const token = require('./token.js');
 const prefix = '!';
 const fs = require('fs');
 
@@ -51,4 +53,4 @@ client.on('message', msg => {
     }
 })
 
-client.login(token);
+client.login();
