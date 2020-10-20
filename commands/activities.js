@@ -5,9 +5,18 @@ module.exports = {
     name: 'activities',
     description: 'I\'ll just let you know what everyone is up to right now.',
     execute(message, args) {
-        let users = message.channel.members.map(m => {
-            return m.presence;
+        let members = message.channel.members.map(m => {
+            let user = { name: m.user, status: m.user.presence.activities[0] }
+            return user;
         });
-        console.log(users)
+        members.forEach(member => {
+            if (member.status !== undefined) {
+                console.log('activity: ', member.status.name)
+                if (member.status.name === 'Spotify') {
+                    message.channel.send(`${member.name} is using ${member.status.name} to listen to ${member.status.state}`)
+                }
+            }
+        })
+        console.log('members: ', members)
     }
 }

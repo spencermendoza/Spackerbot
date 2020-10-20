@@ -49,7 +49,7 @@ client.on('message', msg => {
     } else if (msg.content === 'think you can find me a job?') {
         msg.reply('Jesus Christ couldn\'t find you a job in this economy')
     } else if (msg.content === 'time to get ready for work. see ya, spackerbot') {
-        msg.reply('goodbye daddy love you')
+        msg.reply('goodbye daddy youre the best')
     }
 })
 
