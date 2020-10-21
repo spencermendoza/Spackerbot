@@ -11,6 +11,7 @@ client.once('ready', () => {
     console.log('this bot is online at: ', now);
 })
 
+
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
@@ -49,8 +50,20 @@ client.on('message', msg => {
     } else if (msg.content === 'think you can find me a job?') {
         msg.reply('Jesus Christ couldn\'t find you a job in this economy')
     } else if (msg.content === 'time to get ready for work. see ya, spackerbot') {
-        msg.reply('goodbye daddy youre the best')
+        msg.reply('goodbye daddy love you')
     }
 })
+
+function testing(command) {
+    var commands = client.commands.map(c => {
+        return c.name;
+    })
+
+    for (let i = 0; i < commands.length; i++) {
+        if (command === commands[i]) {
+            client.commands.get(command).execute();
+        }
+    }
+}
 
 client.login();
