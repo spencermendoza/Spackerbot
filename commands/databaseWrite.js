@@ -1,6 +1,6 @@
 // const Discord = require('discord.js');
 // const client = new Discord.Client();
-const firebase = require('../Firebase/firebase');
+// const firebase = require('../Firebase');
 
 module.exports = {
     name: 'databasewrite',

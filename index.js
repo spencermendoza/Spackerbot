@@ -1,7 +1,8 @@
 const Discord = require('discord.js');
 require('dotenv').config();
 const client = new Discord.Client();
-const firebase = require('./Firebase/firebase');
+var firebase = require('./firebase.json');
+var admin = require('firebase-admin');
 // const token = require('./token.js');
 const prefix = '!';
 const fs = require('fs');
