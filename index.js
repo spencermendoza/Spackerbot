@@ -7,6 +7,12 @@ var admin = require('firebase-admin');
 const prefix = '!';
 const fs = require('fs');
 
+admin.initializeApp({
+    credential: admin.credential.cert(firebase)
+})
+
+const db = admin.firestore();
+
 client.once('ready', () => {
     var now = new Date();
     console.log('this bot is online at: ', now);
@@ -52,6 +58,8 @@ client.on('message', msg => {
         msg.reply('Jesus Christ couldn\'t find you a job in this economy')
     } else if (msg.content === 'time to get ready for work. see ya, spackerbot') {
         msg.reply('goodbye daddy love you')
+    } else if (msg.content === 'let em know spackerbot') {
+        msg.reply('I swear this is what I am supposed to do')
     }
 })
 
