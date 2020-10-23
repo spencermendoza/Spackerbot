@@ -1,14 +1,15 @@
 const Discord = require('discord.js');
 require('dotenv').config();
 const client = new Discord.Client();
-var firebase = require('./firebase.json');
-var admin = require('firebase-admin');
-// const token = require('./token.js');
+const testingChannel = '763776636151267329';
+const firebaseJSON = require('./firebase.json');
+const admin = require('firebase-admin');
+const firebase = require('./Firebase/');
 const prefix = '!';
 const fs = require('fs');
 
 admin.initializeApp({
-    credential: admin.credential.cert(firebase)
+    credential: admin.credential.cert(firebaseJSON)
 })
 
 const db = admin.firestore();
@@ -47,6 +48,22 @@ client.on('message', msg => {
     }
 })
 
+client.on('presenceUpdate', (presence) => {
+    presenceAction(presence)
+});
+
+function presenceAction(presence) {
+    var user;
+    if (presence.user !== undefined) {
+        user = presence.user;
+    }
+    console.log('presence: ', presence)
+    // var currentPresence = user.presence;
+    console.log('this is the user: ', user);
+    // console.log('this is the presence: ', currentPresence)
+    // firebase.addUser(user);
+}
+
 client.on('message', msg => {
     if (msg.content === 'this thing working?') {
         msg.reply('I better be!');
@@ -60,19 +77,9 @@ client.on('message', msg => {
         msg.reply('goodbye daddy love you')
     } else if (msg.content === 'let em know spackerbot') {
         msg.reply('I swear this is what I am supposed to do')
+    } else if (msg.content === 'spackerbot') {
+        msg.reply('hello friend')
     }
 })
-
-function testing(command) {
-    var commands = client.commands.map(c => {
-        return c.name;
-    })
-
-    for (let i = 0; i < commands.length; i++) {
-        if (command === commands[i]) {
-            client.commands.get(command).execute();
-        }
-    }
-}
 
 client.login();

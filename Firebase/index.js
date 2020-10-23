@@ -26,5 +26,9 @@ const logTheValue = (args) => {
     this.db.ref(`activities`).set(args)
 
 }
-// module.exports = Firebase;
+
+const addUser = (user) => {
+    this.db.ref(`users`).set(user);
+}
 exports.logTheValue = logTheValue;
+exports.addUser = addUser;
