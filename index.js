@@ -54,14 +54,17 @@ client.on('presenceUpdate', (presence) => {
 
 function presenceAction(presence) {
     var user;
-    if (presence.user !== undefined) {
+    var activities;
+    if (presence !== undefined && presence.user !== undefined) {
         user = presence.user;
+        activities = user.presence.activities;
+        activities.forEach(activity => {
+            if (activity.type === 'PLAYING') {
+                firebase.activityHandler(activity, user.username);
+                firebase.userHandler(user);
+            }
+        })
     }
-    console.log('presence: ', presence)
-    // var currentPresence = user.presence;
-    console.log('this is the user: ', user);
-    // console.log('this is the presence: ', currentPresence)
-    // firebase.addUser(user);
 }
 
 client.on('message', msg => {
