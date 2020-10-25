@@ -109,27 +109,43 @@ const addNewPlayerToExistingActivity = (activity, user) => {
     this.db.ref(`activities/${activity}/${user}`).set(`users/${user}`);
 }
 
-const returnPlayerList = async function (args) {
-    var exists;
+//returns the data underneath a game activity
+const returnPlayerList = (args) => {
     var gameName = args.join('');
-    var playerList = [];
-    gameName = removeSpaces(gameName).toLowerCase()
-    console.log('returning data at endpoint: ', gameName)
-    var playerList = this.db.ref(`activities/${gameName}/`)
-    playerList.once('value')
-        .then(function (snapshot) {
-            exists = snapshot.exists()
-            console.log('new exists: ', exists)
-            snapshot.forEach(function (childSnapshot) {
-                // var key = childSnapshot.key;
-                // var childData = childSnapshot.val();
-                var player = { key: childSnapshot.key, data: childSnapshot.val() }
-                console.log(player)
-                playerList.push(player);
-                console.log('player: ', playerList)
-            })
+    gameName = removeSpaces(gameName).toLowerCase();
+    return this.db.ref(`activities/${gameName}`).once('value').then(snapshot => {
+        var playerList = [];
+        snapshot.forEach(childSnapshot => {
+            var player = { key: childSnapshot.key, data: childSnapshot.val() };
+            playerList.push(player);
         })
+        return playerList;
+    });
 }
+
+const returnPlayerInfo = (data) => {
+    // console.log('data: ', data)
+    var playerList = [];
+    data.forEach(player => {
+        playerList.push(this.db.ref(`users/${player.key}`).once('value').then(snapshot => {
+            // console.log('value: ', snapshot.val())
+            return snapshot.val();
+        }).catch(error => {
+            console.log('promise errored out: ', error)
+        })
+        )
+    })
+    return playerList;
+}
+
+// const returnPlayerInfo = (playerEndpoint) => {
+//     // console.log('endpoint? ', playerEndpoint.toString())
+//     // var playerInfo = [];
+//     return this.db.ref(`users/${playerEndpoint.toString()}`).once('value').then(snapshot => {
+//         // console.log('value? ', snapshot.val())
+//         return snapshot.val();
+//     })
+// }
 
 //lol just take a guess
 const removeSpaces = (string) => {
@@ -140,3 +156,4 @@ const removeSpaces = (string) => {
 exports.userHandler = userHandler;
 exports.activityHandler = activityHandler;
 exports.returnPlayerList = returnPlayerList;
+exports.returnPlayerInfo = returnPlayerInfo;
